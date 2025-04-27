@@ -9,6 +9,8 @@ function App() {
   const [cart, setCart] = useState([]);
   const [search, setSearch] = useState({ title: "", sku: "" });
 
+  console.log("cart", cart);
+
   useEffect(() => {
     fetchProducts();
     fetchCart();
@@ -36,19 +38,19 @@ function App() {
       .post("http://localhost:5000/cart", { productId })
       .then((res) => {
         toast.success("🛒 Product added to cart!");
+        // fetchCart();
         setCart([...cart, res.data]);
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
       });
   };
-
   const removeFromCart = (productId) => {
     axios
       .delete(`http://localhost:5000/cart/${productId}`)
       .then((res) => {
         toast.info("🗑️ Product removed from cart.");
-        setCart(cart.filter((item) => item._id !== productId));
+        fetchCart(); // Re-fetch the cart
       })
       .catch((err) => {
         toast.error("❌ Failed to remove from cart.");
@@ -102,12 +104,9 @@ function App() {
       <div className="cart-grid">
         {cart.map((item) => (
           <div className="card" key={item._id}>
-            <img
-              src={item?.products[0]?.imageSrc}
-              alt={item?.products[0]?.title}
-            />
-            <h3>{item?.products[0]?.title}</h3>
-            <p>Price: ₹{item?.products[0]?.variantPrice}</p>
+            <img src={item?.products?.imageSrc} alt={item?.products?.title} />
+            <h3>{item?.products?.title}</h3>
+            <p>Price: ₹{item?.products?.variantPrice}</p>
             <button onClick={() => removeFromCart(item._id)}>
               Remove From Cart
             </button>

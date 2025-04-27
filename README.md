@@ -14,7 +14,7 @@ Users can browse items, search by SKU or title, and manage items in the cart.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/frontend-repo.git
+git clone https://github.com/Pradnya710-jpg/Shopping_Frontend
 cd frontend
 
 # Install dependencies
